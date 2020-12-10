@@ -36,6 +36,6 @@ Based on:
 
 7. `sudo apt update && sudo apt install -y git && git clone https://github.com/chaimleib/pilfs`
 
-8. `TZ=<your_timezone_name> pilfs/install.sh` and follow the prompts
+8. `TZ=<your_timezone_name> source pilfs/install.sh` and follow the prompts
 
-9. As the lfs user, run `pilfs/lfs_install.sh`
+9. As the lfs user, run `source pilfs/lfs_install.sh`

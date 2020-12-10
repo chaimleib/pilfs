@@ -61,13 +61,20 @@ echo set root user password
 sudo passwd root || return 1
 
 echo set up lfs user
-if ! sudo adduser lfs; then
-  echo 'failed to create user lfs'
-  return 1
+if ! grep '^lfs:' /etc/passwd; then
+  if ! sudo adduser lfs; then
+    echo 'failed to create user lfs'
+    return 1
+  fi
+else
+  echo lfs user already exists
 fi
 if ! sudo adduser lfs sudo; then
   echo 'failed to add lfs user to sudo group'
   return 1
 fi
 sudo adduser lfs video
-echo 'lfs ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/010_lfs-nopasswd
+if ! [ -f /etc/sudoers.d/010_lfs-nopasswd ]; then
+  echo 'lfs ALL=(ALL) NOPASSWD:ALL' |
+    sudo tee /etc/sudoers.d/010_lfs-nopasswd > /dev/null
+fi
