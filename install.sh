@@ -41,7 +41,9 @@ if ! sudo timedatectl set-timezone "$TZ"; then
 fi
 
 echo maximize RAM available for compile
-echo gpu_mem=16 | sudo tee -a /boot/config.txt >/dev/null
+if ! grep '^gpu_mem=16' /boot/config.txt; then
+  echo gpu_mem=16 | sudo tee -a /boot/config.txt >/dev/null
+fi
 
 echo sometimes the proxy gets set. Can\'t figure out why yet.
 http_proxy= ftp_proxy=
