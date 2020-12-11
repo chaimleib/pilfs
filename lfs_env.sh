@@ -58,3 +58,35 @@ if ! sudo mkdir -pv "$LFS"/{bin,etc,lib,sbin,usr,var,tools} ||
 then
   echo failed to create system dir tree
 fi
+
+echo create isolated bash_profile
+cat > ~/.bash_profile << EOF
+exec env -i HOME=\$HOME TERM=\$TERM PS1=\$PS1 /bin/bash
+EOF
+
+echo modifying bashrc
+if ! grep -F 'LFS=' .bashrc; then
+  sed -i '' \
+    -e 's/#\(alias l.*ls \)/\1/' \
+    -e 's/#\(export GCC_COLORS=\)/\1/' \
+    ~lfs/.bashrc
+
+  cat >> ~/.bashrc << EOF
+
+set +h
+umask 022
+LFS=$LFS
+LC_ALL=POSIX
+LFS_TGT=$LFS_TGT
+PATH=/usr/bin
+if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
+PATH=$LFS/tools/bin:$PATH
+CONFIG_SITE=$LFS/usr/share/config.site
+export LFS LC_ALL LFS_TGT PATH CONFIG_SITE
+EOF
+fi
+
+echo ensure system bashrc does not interfere with environment
+if [ -e /etc/bash.bashrc ]; then
+  sudo mv -v /etc/bash.bashrc /etc/bash.bashrc.NOUSE
+fi
