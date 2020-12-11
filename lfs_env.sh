@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo switching to lfs user
-if [ "$USER" != 'lfs' ] && ! sudo su lfs; then
-  echo 'failed to switch to lfs user'
+if [ "$USER" != 'lfs' ]; then
+  echo 'must source this script as the lfs user'
   return 1
 fi
 
