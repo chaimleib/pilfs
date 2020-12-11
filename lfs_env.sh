@@ -21,13 +21,15 @@ echo set LFS, assuming the destination disk, /dev/sdc, has raspbian lite preinst
 export LFS=/mnt/lfsdisk
 
 echo mount the disk and clear it
-if ! sudo mkdir -p "$LFS" ||
-  ! sudo chown lfs:lfs "$LFS" ||
-  ! sudo mount "$device" "$LFS" ||
-  ! sudo rm -rf "$LFS"/*
-then
-  echo "failed to setup the disk at $LFS"
-  return 1
+if ! mount | grep -F "$device on $LFS type ext4" >/dev/null; then
+  if ! sudo mkdir -p "$LFS" ||
+    ! sudo chown lfs:lfs "$LFS" ||
+    ! sudo mount "$device" "$LFS" ||
+    ! sudo rm -rf "$LFS"/*
+  then
+    echo "failed to setup the disk at $LFS"
+    return 1
+  fi
 fi
 
 echo download pilfs packages
