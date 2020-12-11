@@ -57,6 +57,14 @@ then
   return 1
 fi
 
+echo aliasing sh to bash instead of dash
+if ! sudo rm -rf /usr/bin/sh ||
+  !sudo ln -s /usr/bin/bash /usr/bin/sh
+then
+  echo failed to symlink sh '->' bash
+  return 1
+fi
+
 echo set root user password
 sudo passwd root || return 1
 
