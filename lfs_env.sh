@@ -90,3 +90,6 @@ echo ensure system bashrc does not interfere with environment
 if [ -e /etc/bash.bashrc ]; then
   sudo mv -v /etc/bash.bashrc /etc/bash.bashrc.NOUSE
 fi
+
+echo sourcing bash_profile
+source ~/.bash_profile
