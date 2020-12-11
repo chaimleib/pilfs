@@ -38,4 +38,4 @@ Based on:
 
 8. `TZ=<your_timezone_name> source pilfs/install.sh` and follow the prompts
 
-9. As the lfs user, run `source pilfs/lfs_install.sh`
+9. As the lfs user, run `source pilfs/lfs_env.sh`

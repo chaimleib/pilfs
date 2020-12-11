@@ -17,7 +17,7 @@ if [ -z "$device" ]; then
   return 1
 fi
 
-echo assuming the destination disk, /dev/sdc, has raspbian lite preinstalled
+echo set LFS, assuming the destination disk, /dev/sdc, has raspbian lite preinstalled
 export LFS=/mnt/lfsdisk
 
 echo mount the disk and clear it
@@ -46,3 +46,6 @@ then
   echo 'failed to download pilfs sources'
   return 1
 fi
+
+echo set LFS_TGT
+export LFS_TGT=$(uname -m)-lfs-linux-gnueabihf
