@@ -61,7 +61,7 @@ fi
 
 echo create isolated bash_profile
 cat > ~/.bash_profile << EOF
-exec env -i HOME=\$HOME TERM=\$TERM PS1=\$PS1 /bin/bash
+exec env -i HOME="\$HOME" TERM="\$TERM" PS1="\$PS1" /bin/bash
 EOF
 
 echo modifying bashrc
