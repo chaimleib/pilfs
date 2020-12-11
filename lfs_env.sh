@@ -51,3 +51,8 @@ then
   echo 'failed to download pilfs sources'
   return 1
 fi
+
+echo creating system dir tree
+if ! sudo mkdir -pv "$LFS"/{bin,etc,lib,sbin,usr,var,tools}; then
+  echo failed to create system dir tree
+fi
