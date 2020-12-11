@@ -36,6 +36,8 @@ Based on:
 
 7. `sudo apt update && sudo apt install -y git && git clone https://github.com/chaimleib/pilfs`
 
-8. `TZ=<your_timezone_name> source pilfs/install.sh` and follow the prompts
+8. `TZ=<your_timezone_name> source pilfs/pi_env.sh` and follow the prompts
 
-9. As the lfs user, run `source pilfs/lfs_env.sh`
+9. As the lfs user, run `source pilfs/lfs_env.sh`. Now you should be ready to run through chapter 5 and onwards.
+
+10. If you wish, verify your host system dependencies by running `./version-check.sh`.
