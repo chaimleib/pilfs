@@ -73,13 +73,13 @@ EOF
 fi
 
 echo modifying bashrc
-if ! grep -F 'LFS=' .bashrc; then
+if ! grep -F 'LFS=' ~lfs/.bashrc; then
   sed -i '' \
     -e 's/#\(alias l.*ls \)/\1/' \
     -e 's/#\(export GCC_COLORS=\)/\1/' \
     ~lfs/.bashrc
 
-  cat >> ~/.bashrc << EOF
+  cat >> ~lfs/.bashrc << EOF
 
 alias ..='cd ..'
 
