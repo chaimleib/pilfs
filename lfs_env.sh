@@ -73,7 +73,7 @@ EOF
 fi
 
 echo modifying bashrc
-if ! grep -F 'LFS=' ~lfs/.bashrc; then
+if ! grep -F 'LFS=' ~lfs/.bashrc >/dev/null; then
   sed -i '' \
     -e 's/#\(alias l.*ls \)/\1/' \
     -e 's/#\(export GCC_COLORS=\)/\1/' \
