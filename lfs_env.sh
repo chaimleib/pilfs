@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo switching to lfs user
-if [ "$USER" != 'lfs' ]; then
+if [ "${USER:-$(whoami)}" != 'lfs' ]; then
   echo 'must source this script as the lfs user'
   return 1
 fi
