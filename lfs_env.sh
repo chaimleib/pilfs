@@ -23,7 +23,7 @@ export LFS_TGT=$(uname -m)-lfs-linux-gnueabihf
 echo set LFS, assuming the destination disk, /dev/sdc, has raspbian lite preinstalled
 export LFS=/mnt/lfsdisk
 
-echo mount the disk and clear it
+echo if not mounted, mount the disk and clear it
 if ! mount | grep -F "$device on $LFS type ext4" >/dev/null; then
   if ! sudo mkdir -p "$LFS" ||
     ! sudo chown lfs:lfs "$LFS" ||
@@ -35,7 +35,7 @@ if ! mount | grep -F "$device on $LFS type ext4" >/dev/null; then
   fi
 fi
 
-echo download pilfs packages
+echo create sources dir
 cd "$LFS"
 if ! mkdir -p sources ||
   ! chmod -v a+wt sources
@@ -45,11 +45,17 @@ then
 fi
 cd sources
 
-if ! wget https://intestinate.com/pilfs/scripts/wget-list ||
-  ! wget --input-file=wget-list --continue --directory-prefix="$LFS"/sources
-then
-  echo 'failed to download pilfs sources'
-  return 1
+echo if not already present, download packages
+if ! [ -e wget-list ]; then
+  if ! wget https://intestinate.com/pilfs/scripts/wget-list; then
+    echo 'failed to download wget-list'
+    return 1
+  fi
+  if ! wget --input-file=wget-list --continue --directory-prefix="$LFS"/sources
+  then
+    echo 'failed to download pilfs sources'
+    return 1
+  fi
 fi
 
 echo creating system dir tree
@@ -60,9 +66,11 @@ then
 fi
 
 echo create isolated bash_profile
-cat > ~/.bash_profile << EOF
+if ! grep -F 'exec env -i HOME="$HOME"' ~/.bash_profile > /dev/null; then
+  cat > ~/.bash_profile << EOF
 exec env -i HOME="\$HOME" TERM="\$TERM" PS1="\$PS1" /bin/bash
 EOF
+fi
 
 echo modifying bashrc
 if ! grep -F 'LFS=' .bashrc; then
@@ -72,6 +80,8 @@ if ! grep -F 'LFS=' .bashrc; then
     ~lfs/.bashrc
 
   cat >> ~/.bashrc << EOF
+
+alias ..='cd ..'
 
 set +h
 umask 022
