@@ -85,6 +85,7 @@ alias ..='cd ..'
 
 set +h
 umask 022
+TIME=%e
 LFS=$LFS
 LC_ALL=POSIX
 LFS_TGT=$LFS_TGT
